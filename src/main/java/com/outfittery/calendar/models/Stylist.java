@@ -11,6 +11,7 @@ import javax.persistence.*;
 @Getter
 @Setter
 @Builder
+@ToString(callSuper = true)
 public class Stylist extends PersonalisedEntity {
     @Id
     @SequenceGenerator(name = "SEQ_STYLIST_IDS", sequenceName = "SEQ_STYLIST_IDS", allocationSize = 1)

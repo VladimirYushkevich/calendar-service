@@ -7,4 +7,6 @@ import java.util.Optional;
 public interface TimeSlotService {
 
     Optional<TimeSlot> find(Long id);
+
+    TimeSlot create(TimeSlot timeSlot);
 }

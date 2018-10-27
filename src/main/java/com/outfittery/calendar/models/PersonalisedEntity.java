@@ -1,9 +1,6 @@
 package com.outfittery.calendar.models;
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import javax.persistence.Column;
 import javax.persistence.MappedSuperclass;
@@ -13,6 +10,7 @@ import javax.persistence.MappedSuperclass;
 @NoArgsConstructor
 @Getter
 @Setter
+@ToString
 abstract class PersonalisedEntity extends BaseEntity {
     @Column(name = "FIRSTNAME")
     private String firstName;

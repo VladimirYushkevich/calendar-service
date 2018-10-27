@@ -18,6 +18,12 @@ import java.util.Date;
 public class TimeSlotDTO {
     private Long id;
     @NotNull
-    @ApiModelProperty(notes = "Day and time when stylist is available", required = true)
-    private Date dayTime;
+    @ApiModelProperty(notes = "Day when stylist is available", required = true)
+    private Date day;
+    @NotNull
+    @ApiModelProperty(notes = "Encoded availability string")
+    private String availability = "0000000000000000";
+    @NotNull
+    @ApiModelProperty(notes = "Stylist id", required = true)
+    private Long stylistId;
 }

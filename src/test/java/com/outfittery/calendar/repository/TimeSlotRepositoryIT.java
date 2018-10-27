@@ -10,10 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import javax.persistence.PersistenceException;
 import javax.validation.ConstraintViolationException;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Date;
 
+import static org.hamcrest.CoreMatchers.is;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
 public class TimeSlotRepositoryIT extends BaseRepositoryIT {
@@ -27,8 +28,8 @@ public class TimeSlotRepositoryIT extends BaseRepositoryIT {
 
     @Test
     public void shouldPersistValidTimeSlots() {
-        final LocalDateTime localDateTime = today.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().plusDays(1);
-        final Date tomorrow = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
+        final Date tomorrow = Date.from(today.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+                .plusDays(1).atZone(ZoneId.systemDefault()).toInstant());
 
         entityManager.persistAndFlush(from(1L, today, "0000000000000001"));
         entityManager.persistAndFlush(from(2L, today, "0001001001000001"));
@@ -37,16 +38,33 @@ public class TimeSlotRepositoryIT extends BaseRepositoryIT {
 
     @Test
     public void shouldFailOnNotValidTimeSlots() {
-        final LocalDateTime localDateTime = today.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime().plusDays(1);
-        final Date tomorrow = Date.from(localDateTime.atZone(ZoneId.systemDefault()).toInstant());
-
         check(1L, today, "0000000000000002", "Has not allowed number in availability");
         check(1L, today, "000000000000000a", "Has not a number in availability");
         check(1L, today, "000010100000001", "Has less than 16 numbers in availability");
         check(1L, today, "00001010000000100", "Has more than 16 numbers in availability");
 
+        entityManager.persistAndFlush(from(2L, today, "0000000000000001"));
+        check(2L, today, "1000101000000010", "For this day stylist has already time slots");
+    }
+
+    @Test
+    public void searchByDate() {
+        final Date todayPlusOne = Date.from(today.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+                .plusDays(1).atZone(ZoneId.systemDefault()).toInstant());
+        final Date todayPlusTwo = Date.from(today.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+                .plusDays(2).atZone(ZoneId.systemDefault()).toInstant());
+        final Date todayPlusThree = Date.from(today.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+                .plusDays(3).atZone(ZoneId.systemDefault()).toInstant());
+
         entityManager.persistAndFlush(from(1L, today, "0000000000000001"));
-        check(1L, today, "1000101000000010", "For this day stylist has already time slots");
+        entityManager.persistAndFlush(from(2L, today, "0001001001000001"));
+        entityManager.persistAndFlush(from(1L, todayPlusOne, "1111111011111111"));
+        entityManager.persistAndFlush(from(1L, todayPlusTwo, "1010000000000001"));
+        entityManager.persistAndFlush(from(2L, todayPlusTwo, "1111111111111111"));
+        entityManager.persistAndFlush(from(3L, todayPlusThree, "1010000000000001"));
+
+        assertThat(timeSlotRepository.findAllByDayBetweenAndAndAvailabilityContains(todayPlusOne, todayPlusTwo, "0").size(),
+                is(2));
     }
 
     private void check(Long stylistId, Date day, String availability, String reason) {

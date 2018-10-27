@@ -1,17 +1,22 @@
 package com.outfittery.calendar.controllers;
 
 import com.outfittery.calendar.dto.TimeSlotDTO;
+import com.outfittery.calendar.dto.TimeSlotSearch;
 import com.outfittery.calendar.exception.NotFoundException;
+import com.outfittery.calendar.models.Stylist;
+import com.outfittery.calendar.models.TimeSlot;
+import com.outfittery.calendar.services.StylistService;
 import com.outfittery.calendar.services.TimeSlotService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
+import static com.outfittery.calendar.utils.mappers.TimeSlotMapper.buildTimeSlot;
 import static com.outfittery.calendar.utils.mappers.TimeSlotMapper.buildTimeSlotDTO;
 
 @RestController
@@ -22,12 +27,27 @@ import static com.outfittery.calendar.utils.mappers.TimeSlotMapper.buildTimeSlot
 public class TimeSlotController {
 
     private final TimeSlotService timeSlotService;
+    private final StylistService stylistService;
 
-    @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    @ApiOperation(value = "Finds time slot by id.")
-    public TimeSlotDTO getTimeSlotById(@PathVariable("id") Long id) {
-        log.debug("::getById {}", id);
+    @RequestMapping(method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.CREATED)
+    @ApiOperation(value = "Create a new Time Slot.")
+    public TimeSlotDTO createTimeSlot(@RequestBody TimeSlotDTO request) {
+        log.debug("::createTimeSlot {}", request);
 
-        return buildTimeSlotDTO(timeSlotService.find(id).orElseThrow(NotFoundException::new));
+        final Stylist stylist = stylistService.find(request.getStylistId()).orElseThrow(NotFoundException::new);
+        final TimeSlot timeSlot = buildTimeSlot(request);
+        timeSlot.setStylist(stylist);
+
+        return buildTimeSlotDTO(timeSlotService.create(timeSlot));
+    }
+
+    @RequestMapping(value = "/search", method = RequestMethod.POST)
+    @ResponseStatus(HttpStatus.OK)
+    @ApiOperation(value = "Creates publication.")
+    public List<TimeSlotDTO> search(@RequestBody TimeSlotSearch request) {
+        log.debug("::search {}", request);
+
+        return null;
     }
 }
