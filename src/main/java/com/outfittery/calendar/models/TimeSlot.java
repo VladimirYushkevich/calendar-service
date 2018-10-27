@@ -7,7 +7,9 @@ import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 @Entity
-@Table(name = "TIME_SLOTS")
+@Table(name = "TIME_SLOTS",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"DAY", "STYLIST_ID"},
+        name = "UK_Composite_Reservation"))
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -20,6 +22,11 @@ public class TimeSlot extends BaseEntity {
     private Long id;
 
     private Date day;
+
     @Pattern(regexp = "^[0-1]{16}$")
     private String availability;
+
+    @ManyToOne
+    @JoinColumn(name = "STYLIST_ID")
+    private Stylist stylist;
 }
