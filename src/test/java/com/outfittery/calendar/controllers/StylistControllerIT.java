@@ -24,8 +24,8 @@ public class StylistControllerIT extends BaseControllerIT {
         final StylistDTO stylistDTO = Objects.requireNonNull(response.getBody());
         assertThat(response.getStatusCode(), equalTo(OK));
         assertThat(stylistDTO.getId(), equalTo(1L));
-        assertThat(stylistDTO.getFirstName(), equalTo("Calvin"));
-        assertThat(stylistDTO.getLastName(), equalTo("Klein"));
+        assertThat(stylistDTO.getFirstName(), equalTo("Stylist Fn1"));
+        assertThat(stylistDTO.getLastName(), equalTo("Stylist Ln1"));
     }
 
     @Test

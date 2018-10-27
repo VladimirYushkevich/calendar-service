@@ -24,8 +24,8 @@ public class CustomerControllerIT extends BaseControllerIT {
         final CustomerDTO customerDTO = Objects.requireNonNull(response.getBody());
         assertThat(response.getStatusCode(), equalTo(OK));
         assertThat(customerDTO.getId(), equalTo(1L));
-        assertThat(customerDTO.getFirstName(), equalTo("John"));
-        assertThat(customerDTO.getLastName(), equalTo("Doe"));
+        assertThat(customerDTO.getFirstName(), equalTo("Customer Fn1"));
+        assertThat(customerDTO.getLastName(), equalTo("Customer Ln1"));
     }
 
     @Test
