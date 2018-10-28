@@ -13,13 +13,17 @@ import java.util.Set;
 @Setter
 @Builder
 public class Stylist extends PersonalisedEntity {
+
     @Id
     @SequenceGenerator(name = "SEQ_STYLIST_IDS", sequenceName = "SEQ_STYLIST_IDS", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_STYLIST_IDS")
     private Long id;
 
-    @OneToMany(mappedBy = "stylist", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "stylist", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
     private Set<Availability> availabilities;
+
+    @OneToMany(mappedBy = "stylist", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    private Set<Order> orders;
 
     @Override
     public String toString() {

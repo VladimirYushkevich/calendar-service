@@ -14,7 +14,6 @@ import static org.springframework.beans.BeanUtils.copyProperties;
 /**
  * Utility class for mapping stylist to related DTOs and vice versa.
  */
-
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class StylistMapper {
 

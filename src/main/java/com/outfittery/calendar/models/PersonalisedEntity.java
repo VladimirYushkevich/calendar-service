@@ -12,8 +12,10 @@ import javax.persistence.MappedSuperclass;
 @Setter
 @ToString
 abstract class PersonalisedEntity extends BaseEntity {
+
     @Column(name = "FIRSTNAME")
     private String firstName;
+
     @Column(name = "LASTNAME")
     private String lastName;
 }

@@ -1,6 +1,6 @@
 package com.outfittery.calendar.services.impl;
 
-import com.outfittery.calendar.controllers.exceptions.ConflictException;
+import com.outfittery.calendar.controllers.exceptions.NotFoundException;
 import com.outfittery.calendar.dto.AvailabilitySearchDTO;
 import com.outfittery.calendar.models.Availability;
 import com.outfittery.calendar.models.Stylist;
@@ -41,7 +41,8 @@ public class StylistServiceImpl implements StylistService {
 
     @Override
     public Availability create(Availability availability) {
-        final Stylist stylist = stylistRepository.findById(availability.getStylist().getId()).orElseThrow(ConflictException::new);
+        final Stylist stylist = stylistRepository.findById(availability.getStylist().getId()).orElseThrow(NotFoundException::new);
+        log.debug("::found joined {}", stylist);
         availability.setStylist(stylist);
         final Availability createdAvailability = availabilityRepository.save(availability);
         log.debug("::created {}", createdAvailability);

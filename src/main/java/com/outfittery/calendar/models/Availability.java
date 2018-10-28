@@ -15,6 +15,7 @@ import java.util.Date;
 @Setter
 @Builder
 public class Availability extends BaseEntity {
+
     @Id
     @SequenceGenerator(name = "SEQ_AVAILABILITY_IDS", sequenceName = "SEQ_AVAILABILITY_IDS", allocationSize = 1)
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AVAILABILITY_IDS")

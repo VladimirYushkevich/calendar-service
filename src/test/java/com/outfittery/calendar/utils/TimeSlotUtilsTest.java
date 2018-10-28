@@ -13,8 +13,7 @@ import java.util.Map;
 import static com.outfittery.calendar.utils.TimeSlotUtils.*;
 import static java.util.stream.Collectors.groupingBy;
 import static org.hamcrest.Matchers.is;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertThat;
+import static org.junit.Assert.*;
 
 public class TimeSlotUtilsTest {
 
@@ -85,5 +84,25 @@ public class TimeSlotUtilsTest {
 
         assertThat(availabilityByDate.get(today), is("1000000000000010"));
         assertThat(availabilityByDate.get(tomorrow), is("0000000000000000"));
+    }
+
+    @Test
+    public void updateEncodedAvailabilityString() {
+        assertThat(updateEncodedTimeAvailability("0000000000000000", 5, "1"), is("0000010000000000"));
+        assertThat(updateEncodedTimeAvailability("1111111111111111", 5, "0"), is("1111101111111111"));
+    }
+
+    @Test
+    public void updateEncodedAvailabilityStringWithNotValidInput() {
+        checkFailedUpdateAvailability("0000000000000000", 5, "2", "Value is not allowed");
+        checkFailedUpdateAvailability("0000000000000000", 17, "1", "Time index is greater than 15 is not allowed");
+    }
+
+    private void checkFailedUpdateAvailability(String original, int timeIndex, String value, String reason) {
+        try {
+            updateEncodedTimeAvailability(original, timeIndex, value);
+            fail(reason);
+        } catch (IllegalArgumentException ignored) {
+        }
     }
 }

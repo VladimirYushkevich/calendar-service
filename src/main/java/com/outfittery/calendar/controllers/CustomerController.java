@@ -24,7 +24,7 @@ public class CustomerController {
     private final CustomerService customerService;
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    @ApiOperation(value = "Finds customer by id.")
+    @ApiOperation(value = "Finds customer by id")
     public CustomerDTO getCustomerById(@PathVariable("id") Long id) {
         log.debug("::getById {}", id);
 

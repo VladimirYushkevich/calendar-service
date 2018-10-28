@@ -51,7 +51,8 @@ public class StylistControllerIT extends BaseControllerIT {
 
     @Test
     public void createStylistAvailability() {
-        ResponseEntity<AvailabilityDTO> availabilityResponse = template.postForEntity(base + "/availability", from(4L, today), AvailabilityDTO.class);
+        ResponseEntity<AvailabilityDTO> availabilityResponse = template.postForEntity(base + "/availability",
+                from(4L, today), AvailabilityDTO.class);
 
         final AvailabilityDTO availabilityDTO = Objects.requireNonNull(availabilityResponse.getBody());
         assertThat(availabilityResponse.getStatusCode(), equalTo(CREATED));
@@ -67,10 +68,11 @@ public class StylistControllerIT extends BaseControllerIT {
     }
 
     @Test
-    public void shouldReturnConflictWhenStylistNotExists() {
-        ResponseEntity<AvailabilityDTO> response = template.postForEntity(base + "/availability", from(1004L, today), AvailabilityDTO.class);
+    public void shouldReturnNotFoundWhenStylistNotExists() {
+        ResponseEntity<AvailabilityDTO> response = template.postForEntity(base + "/availability",
+                from(1004L, today), AvailabilityDTO.class);
 
-        assertThat(response.getStatusCode(), equalTo(CONFLICT));
+        assertThat(response.getStatusCode(), equalTo(NOT_FOUND));
     }
 
     @Test
@@ -83,9 +85,11 @@ public class StylistControllerIT extends BaseControllerIT {
                 .build();
 
         HttpEntity<AvailabilitySearchDTO> request = new HttpEntity<>(filter, null);
-        ParameterizedTypeReference<List<AvailabilitySearchResultsDTO>> responseType = new ParameterizedTypeReference<List<AvailabilitySearchResultsDTO>>() {
-        };
-        ResponseEntity<List<AvailabilitySearchResultsDTO>> response = template.exchange(base + "/availability/search", HttpMethod.POST, request, responseType);
+        ParameterizedTypeReference<List<AvailabilitySearchResultsDTO>> responseType =
+                new ParameterizedTypeReference<List<AvailabilitySearchResultsDTO>>() {
+                };
+        ResponseEntity<List<AvailabilitySearchResultsDTO>> response = template.exchange(base + "/availability/search",
+                HttpMethod.POST, request, responseType);
 
         final List<AvailabilitySearchResultsDTO> stylistAvailabilityDTOS = Objects.requireNonNull(response.getBody());
         assertThat(response.getStatusCode(), equalTo(OK));

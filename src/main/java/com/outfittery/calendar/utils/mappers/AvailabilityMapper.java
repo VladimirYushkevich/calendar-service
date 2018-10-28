@@ -17,9 +17,8 @@ import static java.util.stream.Collectors.toList;
 import static org.springframework.beans.BeanUtils.copyProperties;
 
 /**
- * Utility class for mapping time slot to related DTOs and vice versa.
+ * Utility class for mapping availabilities to related DTOs and vice versa.
  */
-
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public final class AvailabilityMapper {
 

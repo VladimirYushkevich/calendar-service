@@ -44,13 +44,13 @@ public class AvailabilityRepositoryIT extends BaseRepositoryIT {
 
     @Test
     public void shouldFailOnNotValidAvailabilities() {
-        check(1L, today, "0000000000000002", "Has not allowed number in encodedTimeSlots");
-        check(1L, today, "000000000000000a", "Has not a number in encodedTimeSlots");
-        check(1L, today, "000010100000001", "Has less than 16 numbers in encodedTimeSlots");
-        check(1L, today, "00001010000000100", "Has more than 16 numbers in encodedTimeSlots");
+        checkFailedPersistance(1L, today, "0000000000000002", "Has not allowed number in encodedTimeSlots");
+        checkFailedPersistance(1L, today, "000000000000000a", "Has not a number in encodedTimeSlots");
+        checkFailedPersistance(1L, today, "000010100000001", "Has less than 16 numbers in encodedTimeSlots");
+        checkFailedPersistance(1L, today, "00001010000000100", "Has more than 16 numbers in encodedTimeSlots");
 
         entityManager.persistAndFlush(from(2L, today, "0000000000000001"));
-        check(2L, today, "1000101000000010", "For this day stylist has already time slots");
+        checkFailedPersistance(2L, today, "1000101000000010", "For this day stylist has already time slots");
     }
 
     @Test
@@ -73,7 +73,7 @@ public class AvailabilityRepositoryIT extends BaseRepositoryIT {
                 is(2));
     }
 
-    private void check(Long stylistId, Date day, String availability, String reason) {
+    private void checkFailedPersistance(Long stylistId, Date day, String availability, String reason) {
         try {
             entityManager.persistAndFlush(from(stylistId, day, availability));
             fail(reason);

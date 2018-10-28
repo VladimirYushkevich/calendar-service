@@ -8,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -21,7 +20,6 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override
     public Optional<Customer> find(Long id) {
-        final List<Customer> all = customerRepository.findAll();
         return customerRepository.findById(id);
     }
 }

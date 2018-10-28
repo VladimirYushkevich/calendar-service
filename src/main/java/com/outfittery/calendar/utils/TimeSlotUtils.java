@@ -69,4 +69,12 @@ public final class TimeSlotUtils {
                 (result) -> result.substring(1)
         );
     }
+
+    public static String updateEncodedTimeAvailability(String original, int timeIndex, String value) {
+        if (!("0".equals(value) || "1".equals(value) && timeIndex < 16)) {
+            throw new IllegalArgumentException("Only '0' or '1' value are allowed");
+        }
+
+        return original.substring(0, timeIndex) + value + original.substring(timeIndex + 1);
+    }
 }

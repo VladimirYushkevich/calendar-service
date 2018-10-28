@@ -36,7 +36,7 @@ public class StylistController {
     private final StylistService stylistService;
 
     @RequestMapping(path = "/{id}", method = RequestMethod.GET)
-    @ApiOperation(value = "Finds stylist by id.")
+    @ApiOperation(value = "Finds stylist by id")
     public StylistDTO getStylistById(@PathVariable("id") Long id) {
         log.debug("::getById {}", id);
 
@@ -45,7 +45,7 @@ public class StylistController {
 
     @RequestMapping(value = "/availability", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.CREATED)
-    @ApiOperation(value = "Create a new Time Slot.")
+    @ApiOperation(value = "Create a new time slot")
     public AvailabilityDTO createAvailability(@RequestBody AvailabilityDTO request) {
         log.debug("::createAvailability {}", request);
 
