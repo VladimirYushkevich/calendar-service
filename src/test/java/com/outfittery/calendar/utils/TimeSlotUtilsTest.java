@@ -1,6 +1,6 @@
 package com.outfittery.calendar.utils;
 
-import com.outfittery.calendar.models.StylistAvailability;
+import com.outfittery.calendar.models.Availability;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -72,16 +72,16 @@ public class TimeSlotUtilsTest {
 
     @Test
     public void computeAvailability() {
-        final List<StylistAvailability> stylistAvailabilities = Arrays.asList(
-                StylistAvailability.builder().encodedTimeSlots("1000100000000010").day(today).build(),
-                StylistAvailability.builder().encodedTimeSlots("1000100100000010").day(today).build(),
-                StylistAvailability.builder().encodedTimeSlots("1000010000000010").day(today).build(),
-                StylistAvailability.builder().encodedTimeSlots("1010101010101010").day(tomorrow).build(),
-                StylistAvailability.builder().encodedTimeSlots("0101010101010101").day(tomorrow).build()
+        final List<Availability> stylistAvailabilities = Arrays.asList(
+                Availability.builder().encodedTimeSlots("1000100000000010").day(today).build(),
+                Availability.builder().encodedTimeSlots("1000100100000010").day(today).build(),
+                Availability.builder().encodedTimeSlots("1000010000000010").day(today).build(),
+                Availability.builder().encodedTimeSlots("1010101010101010").day(tomorrow).build(),
+                Availability.builder().encodedTimeSlots("0101010101010101").day(tomorrow).build()
         );
 
         final Map<Date, String> availabilityByDate = stylistAvailabilities.stream()
-                .collect(groupingBy(StylistAvailability::getDay, combineAvailability()));
+                .collect(groupingBy(Availability::getDay, combineAvailability()));
 
         assertThat(availabilityByDate.get(today), is("1000000000000010"));
         assertThat(availabilityByDate.get(tomorrow), is("0000000000000000"));

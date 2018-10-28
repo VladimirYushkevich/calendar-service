@@ -1,8 +1,8 @@
 package com.outfittery.calendar.repository;
 
+import com.outfittery.calendar.models.Availability;
 import com.outfittery.calendar.models.Stylist;
-import com.outfittery.calendar.models.StylistAvailability;
-import com.outfittery.calendar.repositories.StylistAvailabilityRepository;
+import com.outfittery.calendar.repositories.AvailabilityRepository;
 import com.outfittery.calendar.repositories.StylistRepository;
 import org.junit.Before;
 import org.junit.Test;
@@ -18,10 +18,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
-public class StylistAvailabilityRepositoryIT extends BaseRepositoryIT {
+public class AvailabilityRepositoryIT extends BaseRepositoryIT {
 
     @Autowired
-    private StylistAvailabilityRepository stylistAvailabilityRepository;
+    private AvailabilityRepository availabilityRepository;
     @Autowired
     private StylistRepository stylistRepository;
 
@@ -29,7 +29,7 @@ public class StylistAvailabilityRepositoryIT extends BaseRepositoryIT {
 
     @Before
     public void setUp() {
-        stylistAvailabilityRepository.deleteAll();
+        availabilityRepository.deleteAll();
     }
 
     @Test
@@ -69,7 +69,7 @@ public class StylistAvailabilityRepositoryIT extends BaseRepositoryIT {
         entityManager.persistAndFlush(from(2L, todayPlusTwo, "1111111111111111"));
         entityManager.persistAndFlush(from(3L, todayPlusThree, "1010000000000001"));
 
-        assertThat(stylistAvailabilityRepository.findAllByDayBetweenAndAndEncodedTimeSlotsContains(todayPlusOne, todayPlusTwo, "0").size(),
+        assertThat(availabilityRepository.findAllByDayBetweenAndAndEncodedTimeSlotsContains(todayPlusOne, todayPlusTwo, "0").size(),
                 is(2));
     }
 
@@ -83,10 +83,10 @@ public class StylistAvailabilityRepositoryIT extends BaseRepositoryIT {
         entityManager.clear();
     }
 
-    private StylistAvailability from(Long stylistId, Date day, String encodedTimeSlots) {
+    private Availability from(Long stylistId, Date day, String encodedTimeSlots) {
         final Stylist stylist = stylistRepository.findById(stylistId).orElseThrow(IllegalAccessError::new);
 
-        return StylistAvailability.builder()
+        return Availability.builder()
                 .stylist(stylist)
                 .day(day)
                 .encodedTimeSlots(encodedTimeSlots)

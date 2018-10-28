@@ -13,7 +13,7 @@ import java.util.Date;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StylistAvailabilitySearchDTO {
+public class AvailabilitySearchDTO {
     @NotNull
     @ApiModelProperty(notes = "Start date", required = true)
     private Date start;

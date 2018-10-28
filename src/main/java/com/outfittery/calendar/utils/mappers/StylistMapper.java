@@ -1,8 +1,8 @@
 package com.outfittery.calendar.utils.mappers;
 
 import com.outfittery.calendar.dto.StylistDTO;
+import com.outfittery.calendar.models.Availability;
 import com.outfittery.calendar.models.Stylist;
-import com.outfittery.calendar.models.StylistAvailability;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -31,7 +31,7 @@ public final class StylistMapper {
 
         copyProperties(stylist, dto);
         final List<Long> availabilitiesIds = stylist.getAvailabilities().stream()
-                .map(StylistAvailability::getId)
+                .map(Availability::getId)
                 .collect(toList());
         dto.setAvailabilityIds(availabilitiesIds);
 

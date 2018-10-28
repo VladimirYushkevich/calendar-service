@@ -1,8 +1,8 @@
 package com.outfittery.calendar.controllers;
 
-import com.outfittery.calendar.dto.StylistAvailabilityDTO;
-import com.outfittery.calendar.dto.StylistAvailabilitySearchDTO;
-import com.outfittery.calendar.dto.StylistAvailabilitySearchResultsDTO;
+import com.outfittery.calendar.dto.AvailabilityDTO;
+import com.outfittery.calendar.dto.AvailabilitySearchDTO;
+import com.outfittery.calendar.dto.AvailabilitySearchResultsDTO;
 import com.outfittery.calendar.dto.StylistDTO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -51,13 +51,13 @@ public class StylistControllerIT extends BaseControllerIT {
 
     @Test
     public void createStylistAvailability() {
-        ResponseEntity<StylistAvailabilityDTO> availabilityResponse = template.postForEntity(base + "/availability", from(4L, today), StylistAvailabilityDTO.class);
+        ResponseEntity<AvailabilityDTO> availabilityResponse = template.postForEntity(base + "/availability", from(4L, today), AvailabilityDTO.class);
 
-        final StylistAvailabilityDTO stylistAvailabilityDTO = Objects.requireNonNull(availabilityResponse.getBody());
+        final AvailabilityDTO availabilityDTO = Objects.requireNonNull(availabilityResponse.getBody());
         assertThat(availabilityResponse.getStatusCode(), equalTo(CREATED));
-        assertThat(stylistAvailabilityDTO.getId(), notNullValue());
-        assertThat(stylistAvailabilityDTO.getDay(), equalTo(today));
-        assertThat(stylistAvailabilityDTO.getEncodedTimeSlots(), equalTo("0000000000000000"));
+        assertThat(availabilityDTO.getId(), notNullValue());
+        assertThat(availabilityDTO.getDay(), equalTo(today));
+        assertThat(availabilityDTO.getEncodedTimeSlots(), equalTo("0000000000000000"));
 
         ResponseEntity<StylistDTO> stylistResponse = template.getForEntity(base + "/4", StylistDTO.class);
 
@@ -68,7 +68,7 @@ public class StylistControllerIT extends BaseControllerIT {
 
     @Test
     public void shouldReturnConflictWhenStylistNotExists() {
-        ResponseEntity<StylistAvailabilityDTO> response = template.postForEntity(base + "/availability", from(1004L, today), StylistAvailabilityDTO.class);
+        ResponseEntity<AvailabilityDTO> response = template.postForEntity(base + "/availability", from(1004L, today), AvailabilityDTO.class);
 
         assertThat(response.getStatusCode(), equalTo(CONFLICT));
     }
@@ -77,23 +77,23 @@ public class StylistControllerIT extends BaseControllerIT {
     public void searchStylistAvailabilities() {
         final Date start = Date.from(LocalDate.parse("2018-10-22").atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
         final Date end = Date.from(LocalDate.parse("2018-10-23").atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        final StylistAvailabilitySearchDTO filter = StylistAvailabilitySearchDTO.builder()
+        final AvailabilitySearchDTO filter = AvailabilitySearchDTO.builder()
                 .start(start)
                 .end(end)
                 .build();
 
-        HttpEntity<StylistAvailabilitySearchDTO> request = new HttpEntity<>(filter, null);
-        ParameterizedTypeReference<List<StylistAvailabilitySearchResultsDTO>> responseType = new ParameterizedTypeReference<List<StylistAvailabilitySearchResultsDTO>>() {
+        HttpEntity<AvailabilitySearchDTO> request = new HttpEntity<>(filter, null);
+        ParameterizedTypeReference<List<AvailabilitySearchResultsDTO>> responseType = new ParameterizedTypeReference<List<AvailabilitySearchResultsDTO>>() {
         };
-        ResponseEntity<List<StylistAvailabilitySearchResultsDTO>> response = template.exchange(base + "/availability/search", HttpMethod.POST, request, responseType);
+        ResponseEntity<List<AvailabilitySearchResultsDTO>> response = template.exchange(base + "/availability/search", HttpMethod.POST, request, responseType);
 
-        final List<StylistAvailabilitySearchResultsDTO> stylistAvailabilityDTOS = Objects.requireNonNull(response.getBody());
+        final List<AvailabilitySearchResultsDTO> stylistAvailabilityDTOS = Objects.requireNonNull(response.getBody());
         assertThat(response.getStatusCode(), equalTo(OK));
         assertThat(stylistAvailabilityDTOS.size(), is(2));
     }
 
-    private StylistAvailabilityDTO from(Long stylistId, Date day) {
-        return StylistAvailabilityDTO.builder()
+    private AvailabilityDTO from(Long stylistId, Date day) {
+        return AvailabilityDTO.builder()
                 .day(day)
                 .stylistId(stylistId)
                 .build();

@@ -13,7 +13,7 @@ import java.util.List;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class StylistAvailabilitySearchResultsDTO {
+public class AvailabilitySearchResultsDTO {
     @ApiModelProperty(notes = "Day when stylist is available", required = true)
     private Date day;
     @ApiModelProperty(notes = "List of available time slots", required = true)

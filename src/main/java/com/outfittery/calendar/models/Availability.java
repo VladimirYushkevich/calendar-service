@@ -7,18 +7,17 @@ import javax.validation.constraints.Pattern;
 import java.util.Date;
 
 @Entity
-@Table(name = "STYLIST_AVAILABILITIES",
-        uniqueConstraints = @UniqueConstraint(columnNames = {"DAY", "STYLIST_ID"}, name = "UK_STYLIST_AVAILABILITIES"))
+@Table(name = "AVAILABILITIES",
+        uniqueConstraints = @UniqueConstraint(columnNames = {"DAY", "STYLIST_ID"}, name = "UK_AVAILABILITIES"))
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @Builder
-@ToString
-public class StylistAvailability extends BaseEntity {
+public class Availability extends BaseEntity {
     @Id
-    @SequenceGenerator(name = "SEQ_STYLIST_AVAILABILITY_IDS", sequenceName = "SEQ_STYLIST_AVAILABILITY_IDS", allocationSize = 1)
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_STYLIST_AVAILABILITY_IDS")
+    @SequenceGenerator(name = "SEQ_AVAILABILITY_IDS", sequenceName = "SEQ_AVAILABILITY_IDS", allocationSize = 1)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "SEQ_AVAILABILITY_IDS")
     private Long id;
 
     @Temporal(TemporalType.DATE)
@@ -34,7 +33,7 @@ public class StylistAvailability extends BaseEntity {
 
     @Override
     public String toString() {
-        return "StylistAvailability[" +
+        return "Availability[" +
                 "id=" + id +
                 ", day=" + day +
                 ", encodedTimeSlots=" + encodedTimeSlots +

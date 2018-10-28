@@ -19,7 +19,7 @@ public class Stylist extends PersonalisedEntity {
     private Long id;
 
     @OneToMany(mappedBy = "stylist", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<StylistAvailability> availabilities;
+    private Set<Availability> availabilities;
 
     @Override
     public String toString() {

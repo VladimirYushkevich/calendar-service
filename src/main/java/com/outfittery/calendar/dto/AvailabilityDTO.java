@@ -15,7 +15,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class StylistAvailabilityDTO {
+public class AvailabilityDTO {
     private Long id;
     @NotNull
     @ApiModelProperty(notes = "Day when stylist is available", required = true)

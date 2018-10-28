@@ -1,6 +1,6 @@
 package com.outfittery.calendar.utils;
 
-import com.outfittery.calendar.models.StylistAvailability;
+import com.outfittery.calendar.models.Availability;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -44,7 +44,7 @@ public final class TimeSlotUtils {
         return collect;
     }
 
-    public static Collector<StylistAvailability, StringBuilder, String> combineAvailability() {
+    public static Collector<Availability, StringBuilder, String> combineAvailability() {
         return Collector.of(
                 StringBuilder::new,
                 (result, dto) -> {
