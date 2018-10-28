@@ -30,7 +30,7 @@ public class OrderControllerIT extends BaseControllerIT {
         final OrderDTO orderDTO = Objects.requireNonNull(response.getBody());
         assertThat(response.getStatusCode(), equalTo(CREATED));
         assertThat(orderDTO.getId(), notNullValue());
-        assertThat(orderDTO.getCustomerId(), notNullValue());
+        assertThat(orderDTO.getStylistId(), notNullValue());
         assertThat(orderDTO.getTimeSlot(), is("09:30"));
         assertThat(orderDTO.getCustomerId(), is(1L));
     }

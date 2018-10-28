@@ -29,5 +29,5 @@ public class OrderDTO {
     @ApiModelProperty(notes = "Time slot")
     private String timeSlot;
     @ApiModelProperty(notes = "Stylist id")
-    private String stylistId;
+    private Long stylistId;
 }
