@@ -1,12 +1,13 @@
 package com.outfittery.calendar.services;
 
+import com.outfittery.calendar.dto.TimeSlotSearch;
 import com.outfittery.calendar.models.TimeSlot;
 
-import java.util.Optional;
+import java.util.List;
 
 public interface TimeSlotService {
 
-    Optional<TimeSlot> find(Long id);
+    List<TimeSlot> search(TimeSlotSearch filter);
 
     TimeSlot create(TimeSlot timeSlot);
 }

@@ -1,7 +1,7 @@
 package com.outfittery.calendar.controllers;
 
+import com.outfittery.calendar.controllers.exceptions.NotFoundException;
 import com.outfittery.calendar.dto.CustomerDTO;
-import com.outfittery.calendar.exception.NotFoundException;
 import com.outfittery.calendar.services.CustomerService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

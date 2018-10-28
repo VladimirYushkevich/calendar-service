@@ -5,6 +5,9 @@ import com.outfittery.calendar.models.TimeSlot;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+import java.util.Map;
+
 import static org.springframework.beans.BeanUtils.copyProperties;
 
 /**
@@ -30,28 +33,7 @@ public final class TimeSlotMapper {
         return dto;
     }
 
-//    public static PageDTO<StylistDTO> buildPageStylistDTO(Page<Stylist> StylistPage) {
-//        final List<StylistDTO> entries = StylistPage.getContent().parallelStream()
-//                .map(StylistMapper::buildStylistDTO)
-//                .collect(toList());
-//
-//        return PageDTO.<StylistDTO>builder()
-//                .totalPages(StylistPage.getTotalPages())
-//                .totalEntries(StylistPage.getTotalElements())
-//                .entries(entries)
-//                .build();
-//    }
-//
-//    public static String[] getNullPropertyNames(Object source) {
-//        final BeanWrapper src = new BeanWrapperImpl(source);
-//        java.beans.PropertyDescriptor[] pds = src.getPropertyDescriptors();
-//
-//        Set<String> emptyNames = new HashSet<>();
-//        for (java.beans.PropertyDescriptor pd : pds) {
-//            Object srcValue = src.getPropertyValue(pd.getName());
-//            if (srcValue == null) emptyNames.add(pd.getName());
-//        }
-//        String[] result = new String[emptyNames.size()];
-//        return emptyNames.toArray(result);
-//    }
+    public static TimeSlotDTO buildTimeSlotDTOFromEntry(Map.Entry<Date, String> entry) {
+        return TimeSlotDTO.builder().day(entry.getKey()).availability(entry.getValue()).build();
+    }
 }

@@ -1,13 +1,18 @@
 package com.outfittery.calendar.helper;
 
+import com.outfittery.calendar.models.TimeSlot;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collector;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-final class TimeSlotConverter {
+@Slf4j
+public final class TimeSlotConverter {
 
     static List<String> getTimeSlots(int startHour, int endHour, int numberOfSlots) {
         final ArrayList<String> timeSlots = new ArrayList<>(numberOfSlots);
@@ -23,20 +28,29 @@ final class TimeSlotConverter {
         return timeSlots;
     }
 
-    static byte[] toBits(Short value) {
-
-        final int numberOfBits = 16;
-        final byte[] bits = new byte[numberOfBits];
-        final char[] binaryChars = Integer.toBinaryString(value).toCharArray();
-        for (int i = 0; i < numberOfBits; i++) {
-            byte bit = 0;
-            if (i < binaryChars.length) {
-                bit = (byte) Character.getNumericValue(binaryChars[i]);
-            }
-            bits[i] = bit;
-        }
-
-        return bits;
+    public static Collector<TimeSlot, StringBuilder, String> combineAvailability() {
+        return Collector.of(
+                StringBuilder::new,
+                (result, dto) -> {
+                    String andResult;
+                    final String availability = "b" + dto.getAvailability();
+                    if (result.length() == 0) {
+                        andResult = availability;
+                    } else {
+                        final int radix = 16;
+                        final BigInteger left = new BigInteger(result.toString(), radix);
+                        final BigInteger right = new BigInteger(availability, radix);
+                        andResult = left.and(right).toString(radix);
+                        log.debug("{} AND {} = {}", result, availability, andResult);
+                        result.setLength(0);
+                    }
+                    result.append(andResult);
+                },
+                (left, right) -> {
+                    left.append(right);
+                    return left;
+                },
+                (result) -> result.substring(1)
+        );
     }
-
 }

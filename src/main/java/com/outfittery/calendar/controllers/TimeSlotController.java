@@ -1,12 +1,13 @@
 package com.outfittery.calendar.controllers;
 
+import com.outfittery.calendar.controllers.exceptions.ConflictException;
 import com.outfittery.calendar.dto.TimeSlotDTO;
 import com.outfittery.calendar.dto.TimeSlotSearch;
-import com.outfittery.calendar.exception.NotFoundException;
 import com.outfittery.calendar.models.Stylist;
 import com.outfittery.calendar.models.TimeSlot;
 import com.outfittery.calendar.services.StylistService;
 import com.outfittery.calendar.services.TimeSlotService;
+import com.outfittery.calendar.utils.mappers.TimeSlotMapper;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -14,10 +15,15 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
+import static com.outfittery.calendar.helper.TimeSlotConverter.combineAvailability;
 import static com.outfittery.calendar.utils.mappers.TimeSlotMapper.buildTimeSlot;
 import static com.outfittery.calendar.utils.mappers.TimeSlotMapper.buildTimeSlotDTO;
+import static java.util.stream.Collectors.groupingBy;
+import static java.util.stream.Collectors.toList;
 
 @RestController
 @RequestMapping("/api/v1/time-slot")
@@ -35,7 +41,7 @@ public class TimeSlotController {
     public TimeSlotDTO createTimeSlot(@RequestBody TimeSlotDTO request) {
         log.debug("::createTimeSlot {}", request);
 
-        final Stylist stylist = stylistService.find(request.getStylistId()).orElseThrow(NotFoundException::new);
+        final Stylist stylist = stylistService.find(request.getStylistId()).orElseThrow(ConflictException::new);
         final TimeSlot timeSlot = buildTimeSlot(request);
         timeSlot.setStylist(stylist);
 
@@ -44,10 +50,15 @@ public class TimeSlotController {
 
     @RequestMapping(value = "/search", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
-    @ApiOperation(value = "Creates publication.")
+    @ApiOperation(value = "Search for available time slots")
     public List<TimeSlotDTO> search(@RequestBody TimeSlotSearch request) {
         log.debug("::search {}", request);
 
-        return null;
+        final Map<Date, String> availabilityByDate = timeSlotService.search(request).stream()
+                .collect(groupingBy(TimeSlot::getDay, combineAvailability()));
+
+        return availabilityByDate.entrySet().stream()
+                .map(TimeSlotMapper::buildTimeSlotDTOFromEntry)
+                .collect(toList());
     }
 }

@@ -4,6 +4,7 @@ import com.outfittery.calendar.models.Stylist;
 import com.outfittery.calendar.models.TimeSlot;
 import com.outfittery.calendar.repositories.StylistRepository;
 import com.outfittery.calendar.repositories.TimeSlotRepository;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -25,6 +26,11 @@ public class TimeSlotRepositoryIT extends BaseRepositoryIT {
     private StylistRepository stylistRepository;
 
     private Date today = Date.from(LocalDate.now().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
+
+    @Before
+    public void setUp() {
+        timeSlotRepository.deleteAll();
+    }
 
     @Test
     public void shouldPersistValidTimeSlots() {

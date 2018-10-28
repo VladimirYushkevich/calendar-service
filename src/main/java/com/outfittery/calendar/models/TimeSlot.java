@@ -28,7 +28,7 @@ public class TimeSlot extends BaseEntity {
     @Pattern(regexp = "^[0-1]{16}$")
     private String availability;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "STYLIST_ID")
     private Stylist stylist;
 }
