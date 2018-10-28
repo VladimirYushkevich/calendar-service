@@ -17,6 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Date;
 
+import static com.outfittery.calendar.utils.TimeSlotUtils.getTimeSlotsFromTimeIntervals;
 import static com.outfittery.calendar.utils.TimeSlotUtils.updateEncodedTimeAvailability;
 import static com.outfittery.calendar.utils.mappers.OrderMapper.buildOrder;
 
@@ -50,6 +51,7 @@ public class OrderServiceImpl implements OrderService {
         final Order order = buildOrder(dto);
         order.setCustomer(customer);
         order.setStylist(availability.getStylist());
+        order.setTimeSlot(getTimeSlotsFromTimeIntervals().get(timeSlotIndex));
         final Order createdOrder = orderRepository.save(order);
         log.debug("::created {}", order);
         return createdOrder;

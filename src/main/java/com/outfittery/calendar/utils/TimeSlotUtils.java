@@ -19,12 +19,17 @@ import static java.util.stream.Collectors.toMap;
 @Slf4j
 public final class TimeSlotUtils {
 
-    public static List<String> getTimeSlotsFromTimeIntervals(int startHour, int endHour, int numberOfSlots) {
-        final ArrayList<String> timeSlots = new ArrayList<>(numberOfSlots);
+    //TODO think about extract it to properties
+    private static final int START_HOUR = 9;
+    private static final int END_HOUR = 17;
+    private static final int NUMBER_OF_SLOTS = 16;
 
-        final int startTimeInMinutes = startHour * 60;
-        final int endTimeInMinutes = endHour * 60;
-        final int intervalInMinutes = (endTimeInMinutes - startTimeInMinutes) / numberOfSlots;
+    public static List<String> getTimeSlotsFromTimeIntervals() {
+        final ArrayList<String> timeSlots = new ArrayList<>(NUMBER_OF_SLOTS);
+
+        final int startTimeInMinutes = START_HOUR * 60;
+        final int endTimeInMinutes = END_HOUR * 60;
+        final int intervalInMinutes = (endTimeInMinutes - startTimeInMinutes) / NUMBER_OF_SLOTS;
         for (int time = startTimeInMinutes; time < endTimeInMinutes; time += intervalInMinutes) {
             final String formattedTime = String.format("%02d:%02d", time / 60, time % 60);
             timeSlots.add(formattedTime);
@@ -34,14 +39,12 @@ public final class TimeSlotUtils {
     }
 
     public static Map<Integer, String> getTimeSlotsFromEncodedString(String encodedTimeSlots) {
-        final List<String> timeSlots = getTimeSlotsFromTimeIntervals(9, 17, 16);
+        final List<String> timeSlots = getTimeSlotsFromTimeIntervals();
 
-        final Map<Integer, String> collect = IntStream.range(0, timeSlots.size())
+        return IntStream.range(0, timeSlots.size())
                 .boxed()
                 .filter(i -> encodedTimeSlots.charAt(i) == '0')
                 .collect(toMap(Function.identity(), timeSlots::get));
-
-        return collect;
     }
 
     public static Collector<Availability, StringBuilder, String> combineAvailability() {

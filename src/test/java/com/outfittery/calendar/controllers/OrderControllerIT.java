@@ -10,6 +10,7 @@ import java.time.ZoneId;
 import java.util.Date;
 import java.util.Objects;
 
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
@@ -29,6 +30,9 @@ public class OrderControllerIT extends BaseControllerIT {
         final OrderDTO orderDTO = Objects.requireNonNull(response.getBody());
         assertThat(response.getStatusCode(), equalTo(CREATED));
         assertThat(orderDTO.getId(), notNullValue());
+        assertThat(orderDTO.getCustomerId(), notNullValue());
+        assertThat(orderDTO.getTimeSlot(), is("09:30"));
+        assertThat(orderDTO.getCustomerId(), is(1L));
     }
 
     private OrderDTO from(Long customerId, Date day, Integer timeSlotIndex) {

@@ -26,4 +26,8 @@ public class OrderDTO {
     @NotNull
     @ApiModelProperty(notes = "Time slot index", required = true)
     private Integer timeSlotIndex;
+    @ApiModelProperty(notes = "Time slot")
+    private String timeSlot;
+    @ApiModelProperty(notes = "Stylist id")
+    private String stylistId;
 }

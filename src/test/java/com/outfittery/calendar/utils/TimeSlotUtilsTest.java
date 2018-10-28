@@ -40,7 +40,7 @@ public class TimeSlotUtilsTest {
 
     @Test
     public void getTimeSlotsFromTimeInterval() {
-        assertArrayEquals(fullAvailability.toArray(), getTimeSlotsFromTimeIntervals(9, 17, 16).toArray());
+        assertArrayEquals(fullAvailability.toArray(), getTimeSlotsFromTimeIntervals().toArray());
     }
 
     @Test

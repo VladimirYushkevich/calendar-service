@@ -28,6 +28,7 @@ public class Customer extends PersonalisedEntity {
                 "id=" + id +
                 ", firstName='" + super.getFirstName() + '\'' +
                 ", lastName='" + super.getLastName() + '\'' +
+                ", orders=" + orders.size() +
                 ']';
     }
 }

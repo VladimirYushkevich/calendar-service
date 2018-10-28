@@ -34,4 +34,15 @@ public class Order extends BaseEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "CUSTOMER_ID", nullable = false)
     private Customer customer;
+
+    @Override
+    public String toString() {
+        return "Order[" +
+                "id=" + id +
+                ", day=" + day +
+                ", timeSlot=" + timeSlot +
+                ", stylistId=" + stylist.getId() +
+                ", customerId=" + customer.getId() +
+                ']';
+    }
 }

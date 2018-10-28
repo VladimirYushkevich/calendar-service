@@ -25,6 +25,7 @@ public final class OrderMapper {
         final OrderDTO dto = new OrderDTO();
 
         copyProperties(order, dto);
+        dto.setCustomerId(order.getCustomer().getId());
 
         return dto;
     }

@@ -32,6 +32,7 @@ public class Stylist extends PersonalisedEntity {
                 ", firstName=" + super.getFirstName() +
                 ", lastName=" + super.getLastName() +
                 ", availabilities=" + availabilities.size() +
+                ", orders=" + orders.size() +
                 ']';
     }
 }
