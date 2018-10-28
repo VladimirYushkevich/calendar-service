@@ -1,6 +1,6 @@
-package com.outfittery.calendar.helper;
+package com.outfittery.calendar.utils;
 
-import com.outfittery.calendar.models.TimeSlot;
+import com.outfittery.calendar.models.StylistAvailability;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -12,7 +12,7 @@ import java.util.stream.Collector;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 @Slf4j
-public final class TimeSlotConverter {
+public final class TimeSlotUtils {
 
     static List<String> getTimeSlots(int startHour, int endHour, int numberOfSlots) {
         final ArrayList<String> timeSlots = new ArrayList<>(numberOfSlots);
@@ -28,12 +28,12 @@ public final class TimeSlotConverter {
         return timeSlots;
     }
 
-    public static Collector<TimeSlot, StringBuilder, String> combineAvailability() {
+    public static Collector<StylistAvailability, StringBuilder, String> combineAvailability() {
         return Collector.of(
                 StringBuilder::new,
                 (result, dto) -> {
                     String andResult;
-                    final String availability = "b" + dto.getAvailability();
+                    final String availability = "b" + dto.getEncodedTimeSlots();
                     if (result.length() == 0) {
                         andResult = availability;
                     } else {

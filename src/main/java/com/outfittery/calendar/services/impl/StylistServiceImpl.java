@@ -1,6 +1,9 @@
 package com.outfittery.calendar.services.impl;
 
+import com.outfittery.calendar.dto.StylistAvailabilitySearch;
 import com.outfittery.calendar.models.Stylist;
+import com.outfittery.calendar.models.StylistAvailability;
+import com.outfittery.calendar.repositories.StylistAvailabilityRepository;
 import com.outfittery.calendar.repositories.StylistRepository;
 import com.outfittery.calendar.services.StylistService;
 import lombok.AllArgsConstructor;
@@ -8,6 +11,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 
 @Component
@@ -17,9 +22,26 @@ import java.util.Optional;
 public class StylistServiceImpl implements StylistService {
 
     private final StylistRepository stylistRepository;
+    private final StylistAvailabilityRepository stylistAvailabilityRepository;
 
     @Override
     public Optional<Stylist> find(Long id) {
         return stylistRepository.findById(id);
+    }
+
+    @Override
+    public List<StylistAvailability> search(StylistAvailabilitySearch filter) {
+        final Date start = filter.getStart();
+        final Date end = filter.getEnd();
+        final List<StylistAvailability> stylistAvailabilities = stylistAvailabilityRepository.findAllByDayBetweenAndAndEncodedTimeSlotsContains(start, end, "0");
+        log.debug("::found {} availabilities", stylistAvailabilities.size());
+        return stylistAvailabilities;
+    }
+
+    @Override
+    public StylistAvailability create(StylistAvailability stylistAvailability) {
+        final StylistAvailability createdStylistAvailability = stylistAvailabilityRepository.save(stylistAvailability);
+        log.debug("::created {}", createdStylistAvailability);
+        return createdStylistAvailability;
     }
 }

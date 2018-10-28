@@ -29,5 +29,4 @@ public final class StylistMapper {
 
         return dto;
     }
-
 }

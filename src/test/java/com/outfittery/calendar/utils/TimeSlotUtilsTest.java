@@ -1,6 +1,6 @@
-package com.outfittery.calendar.helper;
+package com.outfittery.calendar.utils;
 
-import com.outfittery.calendar.models.TimeSlot;
+import com.outfittery.calendar.models.StylistAvailability;
 import org.junit.Test;
 
 import java.time.LocalDate;
@@ -10,14 +10,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static com.outfittery.calendar.helper.TimeSlotConverter.combineAvailability;
-import static com.outfittery.calendar.helper.TimeSlotConverter.getTimeSlots;
+import static com.outfittery.calendar.utils.TimeSlotUtils.combineAvailability;
+import static com.outfittery.calendar.utils.TimeSlotUtils.getTimeSlots;
 import static java.util.stream.Collectors.groupingBy;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertThat;
 
-public class TimeSlotConverterTest {
+public class TimeSlotUtilsTest {
 
     private Date today = Date.from(LocalDate.now().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
     final Date tomorrow = Date.from(today.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
@@ -46,16 +46,16 @@ public class TimeSlotConverterTest {
 
     @Test
     public void computeAvailability() {
-        final List<TimeSlot> timeSlots = Arrays.asList(
-                TimeSlot.builder().availability("1000100000000010").day(today).build(),
-                TimeSlot.builder().availability("1000100100000010").day(today).build(),
-                TimeSlot.builder().availability("1000010000000010").day(today).build(),
-                TimeSlot.builder().availability("1010101010101010").day(tomorrow).build(),
-                TimeSlot.builder().availability("0101010101010101").day(tomorrow).build()
+        final List<StylistAvailability> stylistAvailabilities = Arrays.asList(
+                StylistAvailability.builder().encodedTimeSlots("1000100000000010").day(today).build(),
+                StylistAvailability.builder().encodedTimeSlots("1000100100000010").day(today).build(),
+                StylistAvailability.builder().encodedTimeSlots("1000010000000010").day(today).build(),
+                StylistAvailability.builder().encodedTimeSlots("1010101010101010").day(tomorrow).build(),
+                StylistAvailability.builder().encodedTimeSlots("0101010101010101").day(tomorrow).build()
         );
 
-        final Map<Date, String> availabilityByDate = timeSlots.stream()
-                .collect(groupingBy(TimeSlot::getDay, combineAvailability()));
+        final Map<Date, String> availabilityByDate = stylistAvailabilities.stream()
+                .collect(groupingBy(StylistAvailability::getDay, combineAvailability()));
 
         assertThat(availabilityByDate.get(today), is("1000000000000010"));
         assertThat(availabilityByDate.get(tomorrow), is("0000000000000000"));

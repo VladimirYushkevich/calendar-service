@@ -1,9 +1,9 @@
 package com.outfittery.calendar.repository;
 
 import com.outfittery.calendar.models.Stylist;
-import com.outfittery.calendar.models.TimeSlot;
+import com.outfittery.calendar.models.StylistAvailability;
+import com.outfittery.calendar.repositories.StylistAvailabilityRepository;
 import com.outfittery.calendar.repositories.StylistRepository;
-import com.outfittery.calendar.repositories.TimeSlotRepository;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,10 +18,10 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
 import static org.junit.Assert.fail;
 
-public class TimeSlotRepositoryIT extends BaseRepositoryIT {
+public class StylistAvailabilityRepositoryIT extends BaseRepositoryIT {
 
     @Autowired
-    private TimeSlotRepository timeSlotRepository;
+    private StylistAvailabilityRepository stylistAvailabilityRepository;
     @Autowired
     private StylistRepository stylistRepository;
 
@@ -29,11 +29,11 @@ public class TimeSlotRepositoryIT extends BaseRepositoryIT {
 
     @Before
     public void setUp() {
-        timeSlotRepository.deleteAll();
+        stylistAvailabilityRepository.deleteAll();
     }
 
     @Test
-    public void shouldPersistValidTimeSlots() {
+    public void shouldPersistValidAvailabilities() {
         final Date tomorrow = Date.from(today.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
                 .plusDays(1).atZone(ZoneId.systemDefault()).toInstant());
 
@@ -43,11 +43,11 @@ public class TimeSlotRepositoryIT extends BaseRepositoryIT {
     }
 
     @Test
-    public void shouldFailOnNotValidTimeSlots() {
-        check(1L, today, "0000000000000002", "Has not allowed number in availability");
-        check(1L, today, "000000000000000a", "Has not a number in availability");
-        check(1L, today, "000010100000001", "Has less than 16 numbers in availability");
-        check(1L, today, "00001010000000100", "Has more than 16 numbers in availability");
+    public void shouldFailOnNotValidAvailabilities() {
+        check(1L, today, "0000000000000002", "Has not allowed number in encodedTimeSlots");
+        check(1L, today, "000000000000000a", "Has not a number in encodedTimeSlots");
+        check(1L, today, "000010100000001", "Has less than 16 numbers in encodedTimeSlots");
+        check(1L, today, "00001010000000100", "Has more than 16 numbers in encodedTimeSlots");
 
         entityManager.persistAndFlush(from(2L, today, "0000000000000001"));
         check(2L, today, "1000101000000010", "For this day stylist has already time slots");
@@ -69,7 +69,7 @@ public class TimeSlotRepositoryIT extends BaseRepositoryIT {
         entityManager.persistAndFlush(from(2L, todayPlusTwo, "1111111111111111"));
         entityManager.persistAndFlush(from(3L, todayPlusThree, "1010000000000001"));
 
-        assertThat(timeSlotRepository.findAllByDayBetweenAndAndAvailabilityContains(todayPlusOne, todayPlusTwo, "0").size(),
+        assertThat(stylistAvailabilityRepository.findAllByDayBetweenAndAndEncodedTimeSlotsContains(todayPlusOne, todayPlusTwo, "0").size(),
                 is(2));
     }
 
@@ -84,13 +84,13 @@ public class TimeSlotRepositoryIT extends BaseRepositoryIT {
         entityManager.clear();
     }
 
-    private TimeSlot from(Long stylistId, Date day, String availability) {
+    private StylistAvailability from(Long stylistId, Date day, String encodedTimeSlots) {
         final Stylist stylist = stylistRepository.findById(stylistId).orElseThrow(IllegalAccessError::new);
 
-        return TimeSlot.builder()
+        return StylistAvailability.builder()
                 .stylist(stylist)
                 .day(day)
-                .availability(availability)
+                .encodedTimeSlots(encodedTimeSlots)
                 .build();
     }
 }

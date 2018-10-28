@@ -15,14 +15,14 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class TimeSlotDTO {
+public class StylistAvailabilityDTO {
     private Long id;
     @NotNull
     @ApiModelProperty(notes = "Day when stylist is available", required = true)
     private Date day;
     @NotNull
-    @ApiModelProperty(notes = "Encoded availability string")
-    private String availability = "0000000000000000";
+    @ApiModelProperty(notes = "Encoded time slots as string")
+    private String encodedTimeSlots = "0000000000000000";
     @NotNull
     @ApiModelProperty(notes = "Stylist id", required = true)
     private Long stylistId;
