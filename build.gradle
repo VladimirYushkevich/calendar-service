@@ -35,6 +35,7 @@ dependencies {
     //Utils
     annotationProcessor("org.projectlombok:lombok:1.18.2")
     compileOnly("org.projectlombok:lombok:1.18.2")
+    implementation("org.apache.commons:commons-lang3:3.1")
     //Tests
     testImplementation('org.springframework.boot:spring-boot-starter-test')
 }

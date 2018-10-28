@@ -43,6 +43,7 @@ public class StylistServiceImpl implements StylistService {
     public Availability create(Availability availability) {
         final Stylist stylist = stylistRepository.findById(availability.getStylist().getId()).orElseThrow(NotFoundException::new);
         log.debug("::found joined {}", stylist);
+
         availability.setStylist(stylist);
         final Availability createdAvailability = availabilityRepository.save(availability);
         log.debug("::created {}", createdAvailability);

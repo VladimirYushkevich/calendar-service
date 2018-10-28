@@ -12,3 +12,12 @@ curl -X POST localhost:8080/api/v1/stylist/availability/search -d '{"start": "20
 ```
 curl -X POST localhost:8080/api/v1/order -d '{"customerId": 1, "day": "2018-10-30", "timeSlotIndex": 2}' -H 'Content-Type: application/json' | jq
 ```
+* automatic booking of calls for orders uploaded via spreadsheets as described above
+```
+curl -X POST localhost:8080/api/v1/order/bulk -d '{"start": "2018-10-29", "end": "2018-10-30", "customerIds": [1, 2]}' -H 'Content-Type: application/json' | jq
+```
+
+### Usage:
+
+[In memory DB console](http://localhost:8080/h2-console)  
+[SWAGGER](http://localhost:8080/swagger-ui.html)

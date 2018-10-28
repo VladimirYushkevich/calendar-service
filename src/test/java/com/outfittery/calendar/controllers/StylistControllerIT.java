@@ -91,9 +91,9 @@ public class StylistControllerIT extends BaseControllerIT {
         ResponseEntity<List<AvailabilitySearchResultsDTO>> response = template.exchange(base + "/availability/search",
                 HttpMethod.POST, request, responseType);
 
-        final List<AvailabilitySearchResultsDTO> stylistAvailabilityDTOS = Objects.requireNonNull(response.getBody());
+        final List<AvailabilitySearchResultsDTO> stylistAvailabilityDTOs = Objects.requireNonNull(response.getBody());
         assertThat(response.getStatusCode(), equalTo(OK));
-        assertThat(stylistAvailabilityDTOS.size(), is(2));
+        assertThat(stylistAvailabilityDTOs.size(), is(2));
     }
 
     private AvailabilityDTO from(Long stylistId, Date day) {

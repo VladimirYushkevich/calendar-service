@@ -98,6 +98,13 @@ public class TimeSlotUtilsTest {
         checkFailedUpdateAvailability("0000000000000000", 17, "1", "Time index is greater than 15 is not allowed");
     }
 
+    @Test
+    public void getAvailableTimeSlots() {
+        assertThat(getNumberOfAvailableTimeSlots("0000000000000000"), is(16));
+        assertThat(getNumberOfAvailableTimeSlots("1111111111111111"), is(0));
+        assertThat(getNumberOfAvailableTimeSlots("1000000000000010"), is(14));
+    }
+
     private void checkFailedUpdateAvailability(String original, int timeIndex, String value, String reason) {
         try {
             updateEncodedTimeAvailability(original, timeIndex, value);

@@ -4,6 +4,7 @@ import com.outfittery.calendar.models.Availability;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -79,5 +80,9 @@ public final class TimeSlotUtils {
         }
 
         return original.substring(0, timeIndex) + value + original.substring(timeIndex + 1);
+    }
+
+    public static int getNumberOfAvailableTimeSlots(String encodedTimeSlots) {
+        return StringUtils.countMatches(encodedTimeSlots, "0");
     }
 }
