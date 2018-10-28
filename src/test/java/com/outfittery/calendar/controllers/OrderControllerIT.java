@@ -14,6 +14,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
+import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.CREATED;
 
 public class OrderControllerIT extends BaseControllerIT {
@@ -33,6 +34,13 @@ public class OrderControllerIT extends BaseControllerIT {
         assertThat(orderDTO.getStylistId(), notNullValue());
         assertThat(orderDTO.getTimeSlot(), is("09:30"));
         assertThat(orderDTO.getCustomerId(), is(1L));
+    }
+
+    @Test
+    public void shouldReturnConflictWhenNoStylistsAvailableForTimeSlot() {
+        ResponseEntity<OrderDTO> response = template.postForEntity(base, from(1L, day, 0), OrderDTO.class);
+
+        assertThat(response.getStatusCode(), equalTo(CONFLICT));
     }
 
     private OrderDTO from(Long customerId, Date day, Integer timeSlotIndex) {

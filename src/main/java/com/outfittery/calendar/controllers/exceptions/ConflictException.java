@@ -9,4 +9,8 @@ public class ConflictException extends RuntimeException {
     public ConflictException() {
         super("You are trying to perform not allowed operation for entity");
     }
+
+    public ConflictException(String message) {
+        super(message);
+    }
 }

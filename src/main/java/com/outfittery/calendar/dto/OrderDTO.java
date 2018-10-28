@@ -17,6 +17,8 @@ import java.util.Date;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class OrderDTO {
     private Long id;
+    private Long stylistId;
+    private String timeSlot;
     @NotNull
     @ApiModelProperty(notes = "Customer id", required = true)
     private Long customerId;
@@ -26,8 +28,4 @@ public class OrderDTO {
     @NotNull
     @ApiModelProperty(notes = "Time slot index", required = true)
     private Integer timeSlotIndex;
-    @ApiModelProperty(notes = "Time slot")
-    private String timeSlot;
-    @ApiModelProperty(notes = "Stylist id")
-    private Long stylistId;
 }

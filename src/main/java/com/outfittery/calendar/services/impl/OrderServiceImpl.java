@@ -41,7 +41,7 @@ public class OrderServiceImpl implements OrderService {
         final Integer timeSlotIndex = dto.getTimeSlotIndex();
         final Availability availability = availabilityRepository.findAllByDayBetweenAndAndEncodedTimeSlotsContains(day, day, "0").stream()
                 .filter(a -> a.getEncodedTimeSlots().charAt(timeSlotIndex) == '0')
-                .findFirst().orElseThrow(ConflictException::new);
+                .findFirst().orElseThrow(() -> new ConflictException("Sorry, no more availability for this time slot. Please try another one."));
         log.debug("::found {}", availability);
 
         availability.setEncodedTimeSlots(updateEncodedTimeAvailability(availability.getEncodedTimeSlots(), timeSlotIndex, "1"));
