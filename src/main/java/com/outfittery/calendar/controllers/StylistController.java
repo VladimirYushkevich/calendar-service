@@ -3,7 +3,8 @@ package com.outfittery.calendar.controllers;
 import com.outfittery.calendar.controllers.exceptions.ConflictException;
 import com.outfittery.calendar.controllers.exceptions.NotFoundException;
 import com.outfittery.calendar.dto.StylistAvailabilityDTO;
-import com.outfittery.calendar.dto.StylistAvailabilitySearch;
+import com.outfittery.calendar.dto.StylistAvailabilitySearchDTO;
+import com.outfittery.calendar.dto.StylistAvailabilitySearchResultsDTO;
 import com.outfittery.calendar.dto.StylistDTO;
 import com.outfittery.calendar.models.Stylist;
 import com.outfittery.calendar.models.StylistAvailability;
@@ -60,7 +61,7 @@ public class StylistController {
     @RequestMapping(value = "/availability/search", method = RequestMethod.POST)
     @ResponseStatus(HttpStatus.OK)
     @ApiOperation(value = "Search for available time slots")
-    public List<StylistAvailabilityDTO> searchStylistAvailabilities(@RequestBody StylistAvailabilitySearch request) {
+    public List<StylistAvailabilitySearchResultsDTO> searchStylistAvailabilities(@RequestBody StylistAvailabilitySearchDTO request) {
         log.debug("::searchStylistAvailabilities {}", request);
 
         final Map<Date, String> availabilityByDate = stylistService.search(request).stream()

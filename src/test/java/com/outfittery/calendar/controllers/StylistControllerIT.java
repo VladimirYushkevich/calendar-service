@@ -1,7 +1,8 @@
 package com.outfittery.calendar.controllers;
 
 import com.outfittery.calendar.dto.StylistAvailabilityDTO;
-import com.outfittery.calendar.dto.StylistAvailabilitySearch;
+import com.outfittery.calendar.dto.StylistAvailabilitySearchDTO;
+import com.outfittery.calendar.dto.StylistAvailabilitySearchResultsDTO;
 import com.outfittery.calendar.dto.StylistDTO;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Value;
@@ -67,17 +68,17 @@ public class StylistControllerIT extends BaseControllerIT {
     public void searchStylistAvailabilities() {
         final Date start = Date.from(LocalDate.parse("2018-10-22").atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
         final Date end = Date.from(LocalDate.parse("2018-10-23").atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-        final StylistAvailabilitySearch filter = StylistAvailabilitySearch.builder()
+        final StylistAvailabilitySearchDTO filter = StylistAvailabilitySearchDTO.builder()
                 .start(start)
                 .end(end)
                 .build();
 
-        HttpEntity<StylistAvailabilitySearch> request = new HttpEntity<>(filter, null);
-        ParameterizedTypeReference<List<StylistAvailabilityDTO>> responseType = new ParameterizedTypeReference<List<StylistAvailabilityDTO>>() {
+        HttpEntity<StylistAvailabilitySearchDTO> request = new HttpEntity<>(filter, null);
+        ParameterizedTypeReference<List<StylistAvailabilitySearchResultsDTO>> responseType = new ParameterizedTypeReference<List<StylistAvailabilitySearchResultsDTO>>() {
         };
-        ResponseEntity<List<StylistAvailabilityDTO>> response = template.exchange(base + "/availability/search", HttpMethod.POST, request, responseType);
+        ResponseEntity<List<StylistAvailabilitySearchResultsDTO>> response = template.exchange(base + "/availability/search", HttpMethod.POST, request, responseType);
 
-        final List<StylistAvailabilityDTO> stylistAvailabilityDTOS = Objects.requireNonNull(response.getBody());
+        final List<StylistAvailabilitySearchResultsDTO> stylistAvailabilityDTOS = Objects.requireNonNull(response.getBody());
         assertThat(response.getStatusCode(), equalTo(OK));
         assertThat(stylistAvailabilityDTOS.size(), is(2));
     }

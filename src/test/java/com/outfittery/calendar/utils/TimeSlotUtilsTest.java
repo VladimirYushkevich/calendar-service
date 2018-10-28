@@ -10,8 +10,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import static com.outfittery.calendar.utils.TimeSlotUtils.combineAvailability;
-import static com.outfittery.calendar.utils.TimeSlotUtils.getTimeSlots;
+import static com.outfittery.calendar.utils.TimeSlotUtils.*;
 import static java.util.stream.Collectors.groupingBy;
 import static org.hamcrest.Matchers.is;
 import static org.junit.Assert.assertArrayEquals;
@@ -20,28 +19,55 @@ import static org.junit.Assert.assertThat;
 public class TimeSlotUtilsTest {
 
     private Date today = Date.from(LocalDate.now().atStartOfDay().atZone(ZoneId.systemDefault()).toInstant());
-    final Date tomorrow = Date.from(today.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
+    private Date tomorrow = Date.from(today.toInstant().atZone(ZoneId.systemDefault()).toLocalDateTime()
             .plusDays(1).atZone(ZoneId.systemDefault()).toInstant());
+    private List<String> fullAvailability = Arrays.asList(
+            "09:00",
+            "09:30",
+            "10:00",
+            "10:30",
+            "11:00",
+            "11:30",
+            "12:00",
+            "12:30",
+            "13:00",
+            "13:30",
+            "14:00",
+            "14:30",
+            "15:00",
+            "15:30",
+            "16:00",
+            "16:30");
 
     @Test
-    public void getListOfTimeSlots() {
+    public void getTimeSlotsFromTimeInterval() {
+        assertArrayEquals(fullAvailability.toArray(), getTimeSlotsFromTimeIntervals(9, 17, 16).toArray());
+    }
+
+    @Test
+    public void getTimeSlotsMapFromEncodedString() {
+        assertArrayEquals(fullAvailability.toArray(), getTimeSlotsFromEncodedString("0000000000000000").values().toArray());
+        assertThat(getTimeSlotsFromEncodedString("1111111111111111").isEmpty(), is(true));
+
+        final Map<Integer, String> timeSlots = getTimeSlotsFromEncodedString("1010101010101010");
         assertArrayEquals(Arrays.asList(
-                "09:00",
                 "09:30",
-                "10:00",
                 "10:30",
-                "11:00",
                 "11:30",
-                "12:00",
                 "12:30",
-                "13:00",
                 "13:30",
-                "14:00",
                 "14:30",
-                "15:00",
                 "15:30",
-                "16:00",
-                "16:30").toArray(), getTimeSlots(9, 17, 16).toArray());
+                "16:30").toArray(), timeSlots.values().toArray());
+        assertArrayEquals(Arrays.asList(
+                1,
+                3,
+                5,
+                7,
+                9,
+                11,
+                13,
+                15).toArray(), timeSlots.keySet().toArray());
     }
 
     @Test

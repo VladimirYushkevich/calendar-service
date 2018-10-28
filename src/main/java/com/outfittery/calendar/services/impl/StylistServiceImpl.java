@@ -1,6 +1,6 @@
 package com.outfittery.calendar.services.impl;
 
-import com.outfittery.calendar.dto.StylistAvailabilitySearch;
+import com.outfittery.calendar.dto.StylistAvailabilitySearchDTO;
 import com.outfittery.calendar.models.Stylist;
 import com.outfittery.calendar.models.StylistAvailability;
 import com.outfittery.calendar.repositories.StylistAvailabilityRepository;
@@ -30,7 +30,7 @@ public class StylistServiceImpl implements StylistService {
     }
 
     @Override
-    public List<StylistAvailability> search(StylistAvailabilitySearch filter) {
+    public List<StylistAvailability> search(StylistAvailabilitySearchDTO filter) {
         final Date start = filter.getStart();
         final Date end = filter.getEnd();
         final List<StylistAvailability> stylistAvailabilities = stylistAvailabilityRepository.findAllByDayBetweenAndAndEncodedTimeSlotsContains(start, end, "0");

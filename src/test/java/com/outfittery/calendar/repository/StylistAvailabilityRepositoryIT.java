@@ -78,7 +78,6 @@ public class StylistAvailabilityRepositoryIT extends BaseRepositoryIT {
             entityManager.persistAndFlush(from(stylistId, day, availability));
             fail(reason);
         } catch (ConstraintViolationException | PersistenceException ignored) {
-            System.out.println();
         }
 
         entityManager.clear();

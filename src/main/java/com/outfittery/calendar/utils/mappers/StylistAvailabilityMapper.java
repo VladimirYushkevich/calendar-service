@@ -1,13 +1,18 @@
 package com.outfittery.calendar.utils.mappers;
 
 import com.outfittery.calendar.dto.StylistAvailabilityDTO;
+import com.outfittery.calendar.dto.StylistAvailabilitySearchResultsDTO;
+import com.outfittery.calendar.dto.TimeSlotDTO;
 import com.outfittery.calendar.models.StylistAvailability;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Map;
 
+import static com.outfittery.calendar.utils.TimeSlotUtils.getTimeSlotsFromEncodedString;
+import static java.util.stream.Collectors.toList;
 import static org.springframework.beans.BeanUtils.copyProperties;
 
 /**
@@ -33,7 +38,10 @@ public final class StylistAvailabilityMapper {
         return dto;
     }
 
-    public static StylistAvailabilityDTO buildStylistAvailabilityDTOFromEntry(Map.Entry<Date, String> entry) {
-        return StylistAvailabilityDTO.builder().day(entry.getKey()).encodedTimeSlots(entry.getValue()).build();
+    public static StylistAvailabilitySearchResultsDTO buildStylistAvailabilityDTOFromEntry(Map.Entry<Date, String> entry) {
+        final List<TimeSlotDTO> timeSlotDTOS = getTimeSlotsFromEncodedString(entry.getValue()).entrySet().stream()
+                .map(e -> TimeSlotDTO.builder().index(e.getKey()).time(e.getValue()).build())
+                .collect(toList());
+        return StylistAvailabilitySearchResultsDTO.builder().day(entry.getKey()).timeSlots(timeSlotDTOS).build();
     }
 }

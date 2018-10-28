@@ -1,6 +1,6 @@
 package com.outfittery.calendar.services;
 
-import com.outfittery.calendar.dto.StylistAvailabilitySearch;
+import com.outfittery.calendar.dto.StylistAvailabilitySearchDTO;
 import com.outfittery.calendar.models.Stylist;
 import com.outfittery.calendar.models.StylistAvailability;
 
@@ -11,7 +11,7 @@ public interface StylistService {
 
     Optional<Stylist> find(Long id);
 
-    List<StylistAvailability> search(StylistAvailabilitySearch filter);
+    List<StylistAvailability> search(StylistAvailabilitySearchDTO filter);
 
     StylistAvailability create(StylistAvailability stylistAvailability);
 }
