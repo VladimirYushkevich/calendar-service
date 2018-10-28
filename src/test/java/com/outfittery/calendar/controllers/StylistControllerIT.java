@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Objects;
 
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.IsEqual.equalTo;
 import static org.junit.Assert.assertThat;
 import static org.springframework.http.HttpStatus.*;
@@ -38,6 +39,7 @@ public class StylistControllerIT extends BaseControllerIT {
         assertThat(stylistDTO.getId(), equalTo(1L));
         assertThat(stylistDTO.getFirstName(), equalTo("Stylist Fn1"));
         assertThat(stylistDTO.getLastName(), equalTo("Stylist Ln1"));
+        assertThat(stylistDTO.getAvailabilityIds().size(), is(3));
     }
 
     @Test
@@ -49,12 +51,19 @@ public class StylistControllerIT extends BaseControllerIT {
 
     @Test
     public void createStylistAvailability() {
-        ResponseEntity<StylistAvailabilityDTO> response = template.postForEntity(base + "/availability", from(4L, today), StylistAvailabilityDTO.class);
+        ResponseEntity<StylistAvailabilityDTO> availabilityResponse = template.postForEntity(base + "/availability", from(4L, today), StylistAvailabilityDTO.class);
 
-        final StylistAvailabilityDTO stylistAvailabilityDTO = Objects.requireNonNull(response.getBody());
-        assertThat(response.getStatusCode(), equalTo(CREATED));
+        final StylistAvailabilityDTO stylistAvailabilityDTO = Objects.requireNonNull(availabilityResponse.getBody());
+        assertThat(availabilityResponse.getStatusCode(), equalTo(CREATED));
+        assertThat(stylistAvailabilityDTO.getId(), notNullValue());
         assertThat(stylistAvailabilityDTO.getDay(), equalTo(today));
         assertThat(stylistAvailabilityDTO.getEncodedTimeSlots(), equalTo("0000000000000000"));
+
+        ResponseEntity<StylistDTO> stylistResponse = template.getForEntity(base + "/4", StylistDTO.class);
+
+        final StylistDTO stylistDTO = Objects.requireNonNull(stylistResponse.getBody());
+        assertThat(stylistResponse.getStatusCode(), equalTo(OK));
+        assertThat(stylistDTO.getAvailabilityIds().size(), is(1));
     }
 
     @Test
@@ -83,10 +92,10 @@ public class StylistControllerIT extends BaseControllerIT {
         assertThat(stylistAvailabilityDTOS.size(), is(2));
     }
 
-    private StylistAvailabilityDTO from(Long id, Date day) {
+    private StylistAvailabilityDTO from(Long stylistId, Date day) {
         return StylistAvailabilityDTO.builder()
                 .day(day)
-                .stylistId(id)
+                .stylistId(stylistId)
                 .build();
     }
 }

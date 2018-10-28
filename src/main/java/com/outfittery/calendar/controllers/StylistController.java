@@ -1,12 +1,10 @@
 package com.outfittery.calendar.controllers;
 
-import com.outfittery.calendar.controllers.exceptions.ConflictException;
 import com.outfittery.calendar.controllers.exceptions.NotFoundException;
 import com.outfittery.calendar.dto.StylistAvailabilityDTO;
 import com.outfittery.calendar.dto.StylistAvailabilitySearchDTO;
 import com.outfittery.calendar.dto.StylistAvailabilitySearchResultsDTO;
 import com.outfittery.calendar.dto.StylistDTO;
-import com.outfittery.calendar.models.Stylist;
 import com.outfittery.calendar.models.StylistAvailability;
 import com.outfittery.calendar.services.StylistService;
 import com.outfittery.calendar.utils.mappers.StylistAvailabilityMapper;
@@ -51,11 +49,7 @@ public class StylistController {
     public StylistAvailabilityDTO createStylistAvailability(@RequestBody StylistAvailabilityDTO request) {
         log.debug("::createStylistAvailability {}", request);
 
-        final Stylist stylist = stylistService.find(request.getStylistId()).orElseThrow(ConflictException::new);
-        final StylistAvailability stylistAvailability = buildStylistAvailability(request);
-        stylistAvailability.setStylist(stylist);
-
-        return buildStylistAvailabilityDTO(stylistService.create(stylistAvailability));
+        return buildStylistAvailabilityDTO(stylistService.create(buildStylistAvailability(request)));
     }
 
     @RequestMapping(value = "/availability/search", method = RequestMethod.POST)

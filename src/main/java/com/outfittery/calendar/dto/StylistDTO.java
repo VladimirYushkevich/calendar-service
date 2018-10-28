@@ -8,6 +8,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotNull;
+import java.util.List;
 
 @Data
 @Builder
@@ -22,4 +23,6 @@ public class StylistDTO {
     @NotNull
     @ApiModelProperty(notes = "Last name of stylist", required = true)
     private String lastName;
+    @ApiModelProperty(notes = "List of availabilities ids", required = true)
+    private List<Long> availabilityIds;
 }

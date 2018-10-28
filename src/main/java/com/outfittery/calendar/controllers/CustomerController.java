@@ -18,7 +18,7 @@ import static com.outfittery.calendar.utils.mappers.CustomerMapper.buildCustomer
 @RequestMapping("/api/v1/customer")
 @AllArgsConstructor
 @Slf4j
-@Api(description = "CRUD operations for customers")
+@Api(description = "CRUD and business operations for customers")
 public class CustomerController {
 
     private final CustomerService customerService;

@@ -2,9 +2,13 @@ package com.outfittery.calendar.utils.mappers;
 
 import com.outfittery.calendar.dto.StylistDTO;
 import com.outfittery.calendar.models.Stylist;
+import com.outfittery.calendar.models.StylistAvailability;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
+import java.util.List;
+
+import static java.util.stream.Collectors.toList;
 import static org.springframework.beans.BeanUtils.copyProperties;
 
 /**
@@ -26,6 +30,10 @@ public final class StylistMapper {
         final StylistDTO dto = new StylistDTO();
 
         copyProperties(stylist, dto);
+        final List<Long> availabilitiesIds = stylist.getAvailabilities().stream()
+                .map(StylistAvailability::getId)
+                .collect(toList());
+        dto.setAvailabilityIds(availabilitiesIds);
 
         return dto;
     }

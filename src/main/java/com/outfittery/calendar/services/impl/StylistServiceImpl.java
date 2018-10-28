@@ -1,5 +1,6 @@
 package com.outfittery.calendar.services.impl;
 
+import com.outfittery.calendar.controllers.exceptions.ConflictException;
 import com.outfittery.calendar.dto.StylistAvailabilitySearchDTO;
 import com.outfittery.calendar.models.Stylist;
 import com.outfittery.calendar.models.StylistAvailability;
@@ -40,6 +41,8 @@ public class StylistServiceImpl implements StylistService {
 
     @Override
     public StylistAvailability create(StylistAvailability stylistAvailability) {
+        final Stylist stylist = stylistRepository.findById(stylistAvailability.getStylist().getId()).orElseThrow(ConflictException::new);
+        stylistAvailability.setStylist(stylist);
         final StylistAvailability createdStylistAvailability = stylistAvailabilityRepository.save(stylistAvailability);
         log.debug("::created {}", createdStylistAvailability);
         return createdStylistAvailability;

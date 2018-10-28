@@ -29,6 +29,16 @@ public class StylistAvailability extends BaseEntity {
     private String encodedTimeSlots;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "STYLIST_ID")
+    @JoinColumn(name = "STYLIST_ID", nullable = false)
     private Stylist stylist;
+
+    @Override
+    public String toString() {
+        return "StylistAvailability[" +
+                "id=" + id +
+                ", day=" + day +
+                ", encodedTimeSlots=" + encodedTimeSlots +
+                ", stylistId=" + stylist.getId() +
+                ']';
+    }
 }

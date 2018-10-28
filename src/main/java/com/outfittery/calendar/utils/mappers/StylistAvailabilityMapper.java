@@ -3,6 +3,7 @@ package com.outfittery.calendar.utils.mappers;
 import com.outfittery.calendar.dto.StylistAvailabilityDTO;
 import com.outfittery.calendar.dto.StylistAvailabilitySearchResultsDTO;
 import com.outfittery.calendar.dto.TimeSlotDTO;
+import com.outfittery.calendar.models.Stylist;
 import com.outfittery.calendar.models.StylistAvailability;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -26,6 +27,7 @@ public final class StylistAvailabilityMapper {
         StylistAvailability stylistAvailability = new StylistAvailability();
 
         copyProperties(dto, stylistAvailability);
+        stylistAvailability.setStylist(Stylist.builder().id(dto.getStylistId()).build());
 
         return stylistAvailability;
     }
