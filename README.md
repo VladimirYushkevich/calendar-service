@@ -1,3 +1,9 @@
+calendar-service [![Build Status](https://travis-ci.org/VladimirYushkevich/calendar-service.svg?branch=master)](https://travis-ci.org/VladimirYushkevich/calendar-service) [![Code Coverage](https://img.shields.io/codecov/c/github/VladimirYushkevich/calendar-service/master.svg)](https://codecov.io/github/VladimirYushkevich/calendar-service?branch=master)
+=
+### Description:
+
+REST API for schedule calls between customer and on of stylists from available pool.
+
 ### Run service:
 ```
 ./gradlew clean build -i && java -jar build/libs/calendar-service-0.0.1-SNAPSHOT.jar
