@@ -1,4 +1,4 @@
-calendar-service [![Build Status](https://travis-ci.org/VladimirYushkevich/calendar-service.svg?branch=master)](https://travis-ci.org/VladimirYushkevich/calendar-service) [![Code Coverage](https://img.shields.io/codecov/c/github/VladimirYushkevich/calendar-service/master.svg)](https://codecov.io/github/VladimirYushkevich/calendar-service?branch=master)
+calendar-service [![Build Status](https://travis-ci.org/VladimirYushkevich/calendar-service.svg?branch=master)](https://travis-ci.org/VladimirYushkevich/calendar-service) [![codecov](https://codecov.io/gh/VladimirYushkevich/calendar-service/branch/master/graph/badge.svg)](https://codecov.io/gh/VladimirYushkevich/calendar-service)
 =
 ### Description:
 
