@@ -2,7 +2,7 @@ calendar-service [![Build Status](https://travis-ci.org/VladimirYushkevich/calen
 =
 ### Description:
 
-REST API for schedule calls between customer and on of stylists from available pool.
+REST API for scheduling calls between customers and on of stylists from available pool.
 
 ### Run service:
 ```
