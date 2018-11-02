@@ -69,7 +69,7 @@ public class AvailabilityRepositoryIT extends BaseRepositoryIT {
         entityManager.persistAndFlush(from(2L, todayPlusTwo, "1111111111111111"));
         entityManager.persistAndFlush(from(3L, todayPlusThree, "1010000000000001"));
 
-        assertThat(availabilityRepository.findAllByDayBetweenAndAndEncodedTimeSlotsContains(todayPlusOne, todayPlusTwo, "0").size(),
+        assertThat(availabilityRepository.findAllByDayBetweenAndEncodedTimeSlotsContains(todayPlusOne, todayPlusTwo, "0").size(),
                 is(2));
     }
 

@@ -46,7 +46,7 @@ public class OrderServiceImpl implements OrderService {
 
         final Date day = dto.getDay();
         final Integer timeSlotIndex = dto.getTimeSlotIndex();
-        final Availability availability = availabilityRepository.findAllByDayBetweenAndAndEncodedTimeSlotsContains(day, day, "0").stream()
+        final Availability availability = availabilityRepository.findAllByDayBetweenAndEncodedTimeSlotsContains(day, day, "0").stream()
                 .filter(a -> a.getEncodedTimeSlots().charAt(timeSlotIndex) == '0')
                 .findFirst().orElseThrow(() -> new ConflictException("Sorry, no more availability for this time slot. Please try another one."));
         log.debug("::found {}", availability);
@@ -72,7 +72,7 @@ public class OrderServiceImpl implements OrderService {
         final AtomicInteger limit = new AtomicInteger(numberOfCustomers);
         final Date start = dto.getStart();
         final Date end = dto.getEnd();
-        final List<Order> orders = availabilityRepository.findAllByDayBetweenAndAndEncodedTimeSlotsContains(start, end, "0").stream()
+        final List<Order> orders = availabilityRepository.findAllByDayBetweenAndEncodedTimeSlotsContains(start, end, "0").stream()
                 .flatMap(a -> buildOrders(a, limit))
                 .limit(numberOfCustomers)
                 .collect(toList());

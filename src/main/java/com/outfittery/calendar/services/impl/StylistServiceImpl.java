@@ -34,7 +34,7 @@ public class StylistServiceImpl implements StylistService {
     public List<Availability> search(AvailabilitySearchDTO filter) {
         final Date start = filter.getStart();
         final Date end = filter.getEnd();
-        final List<Availability> stylistAvailabilities = availabilityRepository.findAllByDayBetweenAndAndEncodedTimeSlotsContains(start, end, "0");
+        final List<Availability> stylistAvailabilities = availabilityRepository.findAllByDayBetweenAndEncodedTimeSlotsContains(start, end, "0");
         log.debug("::found {} availabilities", stylistAvailabilities.size());
         return stylistAvailabilities;
     }

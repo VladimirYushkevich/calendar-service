@@ -8,5 +8,5 @@ import java.util.List;
 
 public interface AvailabilityRepository extends JpaRepository<Availability, Long> {
 
-    List<Availability> findAllByDayBetweenAndAndEncodedTimeSlotsContains(Date start, Date end, String availability);
+    List<Availability> findAllByDayBetweenAndEncodedTimeSlotsContains(Date start, Date end, String availability);
 }
