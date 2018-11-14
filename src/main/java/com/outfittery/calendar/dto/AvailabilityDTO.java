@@ -21,6 +21,7 @@ public class AvailabilityDTO {
     @ApiModelProperty(notes = "Day when stylist is available", required = true)
     private Date day;
     @NotNull
+    @Builder.Default
     @ApiModelProperty(notes = "Encoded time slots as string")
     private String encodedTimeSlots = "0000000000000000";
     @NotNull
